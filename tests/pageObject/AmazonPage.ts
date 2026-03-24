@@ -23,12 +23,17 @@ export default class AmazonPage {
     const searchBox = this.commonActions.getElementByRole('searchbox', ELEMENT_NAMES.SEARCH_AMAZON);
     await this.commonActions.clickElement(searchBox);
     await this.commonActions.fillInput(searchBox, TEST_DATA.search.searchTerms[0]);
-    
+
     const electronicsButton = this.commonActions.getElementByRole('button', ELEMENT_NAMES.ELECTRONICS_BUTTON, true);
-    await this.commonActions.clickElement(electronicsButton);
-    
-    const submitButton = this.commonActions.getElementByRole('button', ELEMENT_NAMES.SUBMIT_BUTTON);
-    await this.commonActions.clickElement(submitButton.first());
+    const clicked = await this.commonActions.clickIfVisible(electronicsButton, TIMEOUTS.SHORT);
+
+    if (!clicked) {
+      // Amazon may not always show category suggestion button. Fallback to enter.
+      await this.commonActions.pressKey('Enter');
+    }
+
+    // ensure page navigation completes before continuing
+    await this.commonActions.waitForElementVisibility(this.commonActions.getLocatorBySelector('body'), TIMEOUTS.PAGE_LOAD);
   }
 
   async setDeliveryToIndia(): Promise<void> {
@@ -38,10 +43,15 @@ export default class AmazonPage {
 
   async signIn(email: string): Promise<void> {
     const signInButton = this.commonActions.getElementByRole('button', ELEMENT_NAMES.SIGN_IN_ADDRESSES);
-    await this.commonActions.clickElement(signInButton);
-    
+    const clicked = await this.commonActions.clickIfVisible(signInButton, TIMEOUTS.SHORT);
+
+    if (!clicked) {
+      const fallbackSignIn = this.commonActions.getLocatorBySelector(SELECTORS.SIGN_IN_BUTTON);
+      await this.commonActions.clickElement(fallbackSignIn);
+    }
+
     try {
-      const emailInput = this.commonActions.getLocatorBySelector('input[placeholder*="email"]');
+      const emailInput = this.commonActions.getLocatorBySelector('input[type="email"], input[placeholder*="Email"], input[placeholder*="email"]');
       await this.commonActions.waitForElementVisibility(emailInput, TIMEOUTS.SHORT);
       await this.commonActions.fillInput(emailInput, email || TEST_DATA.users.testUser.email);
       

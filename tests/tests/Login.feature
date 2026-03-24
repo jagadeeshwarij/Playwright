@@ -8,7 +8,7 @@ Feature: Amazon search and login flow
     And I submit the search
     And I select delivery to India
     And I click sign in to see addresses
-    And I enter email "jagadeeshwarij6@gmail.com"
+     And I enter email "jagadeeshwarij6@gmail.com"
     And I continue login
     And I change the claim input
     And I navigate to electronics search results

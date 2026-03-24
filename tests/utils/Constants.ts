@@ -15,6 +15,7 @@ export const SELECTORS = {
   CART_BUTTON: '#a-autoid-1-announce',
   CLEAR_BUTTON: '#claim-input-clear-button',
   ELECTRONICS_LINK: 'a',
+  SIGN_IN_BUTTON: '#nav-link-accountList',
   MENU_BACKGROUND: '#hmenu-canvas-background'
 };
 

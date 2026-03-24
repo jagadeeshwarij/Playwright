@@ -40,6 +40,13 @@ export class CommonActions {
   }
 
   /**
+   * Press key on keyboard
+   */
+  async pressKey(key: string): Promise<void> {
+    await this.page.keyboard.press(key);
+  }
+
+  /**
    * Get locator by role and name
    */
   getElementByRole(role: string, name: string, exact: boolean = false): Locator {
