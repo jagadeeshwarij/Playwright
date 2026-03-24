@@ -32,31 +32,6 @@ jobs:
       id: test
       run: npm test
 
-    - name: Send email report
-      if: always()
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: jagadeeshwarij6@gmail.com
-        password: Lishika@01
-        subject: Playwright Test Report - ${{ job.status }}
-        body: |
-          Playwright Test Execution Report
-
-          Status: ${{ job.status }}
-          Repository: ${{ github.repository }}
-          Branch: ${{ github.ref_name }}
-          Commit: ${{ github.sha }}
-          Run: ${{ github.run_id }}
-
-          Test Results Summary:
-          Please check the GitHub Actions logs for detailed test results.
-
-          View full results: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        to: jagadeeshwarij6@gmail.com
-        from: jagadeeshwarij6@gmail.com
-
     - uses: actions/upload-artifact@v4
       if: always()
       with:
